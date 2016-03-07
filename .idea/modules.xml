@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EventBusExample.iml" filepath="$PROJECT_DIR$/EventBusExample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simple_event_bus_example.iml" filepath="$PROJECT_DIR$/simple_event_bus_example.iml" />
     </modules>
   </component>
 </project>

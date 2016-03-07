@@ -1,5 +1,6 @@
 package com.eventbusexample.mes.eventbusexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view, "This is a simple Event Bus implementation.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -115,36 +116,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera)
-        {
-            // Handle the camera action
-        }
-        else if (id == R.id.nav_gallery)
-        {
-
-        }
-        else if (id == R.id.nav_slideshow)
-        {
-
-        }
-        else if (id == R.id.nav_manage)
+        if (id == R.id.nav_manage)
         {
             EventBus.getDefault().post(new MessageEvent("Hello EventBus!")); // The sender
         }
         else if (id == R.id.nav_share)
         {
-
-        }
-        else if (id == R.id.nav_send)
-        {
-
+            sendEmail();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     // This method will be called when a MessageEvent is posted
     @Subscribe(sticky = false, threadMode = ThreadMode.MAIN)
@@ -153,24 +137,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    // Called in the background thread
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onBackgroundMessage(MessageEvent event)
-    {
-        saveToDisk(event.getMessage());
-    }
 
-    // Called in a separate thread
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onAsyncMessage(MessageEvent event)
+    private void sendEmail()
     {
-        String message = event.getMessage();
-    }
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"meskarkala@gmail.com"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "About Event Bus Example");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Add Message here");
 
-
-    private void saveToDisk(String message)
-    {
-        // Background job
+        try
+        {
+            startActivity(Intent.createChooser(emailIntent, "Send email using..."));
+        }
+        catch (android.content.ActivityNotFoundException ex)
+        {
+            Toast.makeText(this, "No email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
