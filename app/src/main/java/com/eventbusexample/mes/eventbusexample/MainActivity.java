@@ -2,6 +2,7 @@ package com.eventbusexample.mes.eventbusexample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,22 +14,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 //Source: http://www.andreas-schrade.de/2015/11/28/android-how-to-use-the-greenrobot-eventbus/
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
+    @Bind(R.id.editTextUserInput)
+    EditText editTextUser;
+
+    @NonNull @Bind(R.id.textToBeChanged)
+    TextView textToBeChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,6 +151,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
+    @OnClick(R.id.changeTextBt)
+    void changeText()
+    {
+        textToBeChanged.setText(editTextUser.getText());
+    }
 
     private void sendEmail()
     {
